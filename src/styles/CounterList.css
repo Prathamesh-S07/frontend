@@ -1,0 +1,93 @@
+/* CounterList modern card style */
+.clist {
+  border: 1px solid #ececf4;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #f4f7fd;
+  box-shadow: 0 2px 8px rgba(28, 29, 33, 0.04);
+  margin-top: 18px;
+}
+
+.clist-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid #e0e7ef;
+  background: #f7faff;
+  transition: background 0.2s;
+  font-size: 15px;
+}
+.clist-row:last-child {
+  border-bottom: none;
+}
+.clist-row:hover {
+  background: #eef4ff;
+}
+
+.clist-name {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a237e;
+}
+
+.clist-limit-remaining {
+  display: flex;
+  gap: 18px;
+  margin-top: 2px;
+}
+
+.clist-limit,
+.clist-remaining {
+  font-size: 14px;
+  color: #2336a3;
+  font-weight: 600;
+  background: #eaf0ff;
+  border-radius: 8px;
+  padding: 3px 10px;
+  margin-right: 8px;
+}
+
+.clist-del {
+  padding: 8px 18px;
+  background: #e5484d;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.clist-del:hover {
+  background: #c2363a;
+}
+
+/* StaffAssignDropdown select style for CounterList */
+.clist-select {
+  min-width: 120px;
+  padding: 7px 12px;
+  border: 1px solid #cfdcff;
+  border-radius: 8px;
+  background: #fff;
+  color: #1a237e;
+  font-size: 15px;
+  font-weight: 500;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  margin-right: 8px;
+}
+.clist-select:focus {
+  border-color: #6a7cff;
+  box-shadow: 0 0 0 3px rgba(106, 124, 255, 0.15);
+}
+
+.clist-empty {
+  padding: 18px;
+  color: #6d7078;
+  font-size: 15px;
+  text-align: center;
+}

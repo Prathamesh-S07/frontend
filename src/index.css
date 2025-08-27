@@ -1,0 +1,47 @@
+/* Global improved input style for all textboxes, selects, and textareas */
+.improved-input,
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="email"],
+select,
+textarea {
+  border: 2px solid #b3b3b3;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #f9f9f9;
+  margin-top: 4px;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  display: block;
+}
+.improved-input:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #2563eb;
+  background: #fff;
+  box-shadow: 0 0 0 2px #2563eb22;
+}
+@layer components {
+  .btn {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 0.25rem;
+    background-color: #3b82f6;
+    color: #fff;
+    transition: background-color 0.2s;
+  }
+  .btn:hover {
+    background-color: #2563eb;
+  }
+}

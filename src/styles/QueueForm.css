@@ -1,0 +1,96 @@
+/* QueueForm modern card-like style */
+.qform-wrap {
+  padding: 24px;
+  background: #f6f7fb;
+  min-height: calc(100vh - 64px);
+}
+
+.qform-card {
+  background: #fff;
+  border: 1px solid #e9e9ef;
+  border-radius: 12px;
+  padding: 32px 28px 28px 28px;
+  max-width: 720px;
+  margin: 0 auto;
+  box-shadow: 0 6px 24px rgba(28, 29, 33, 0.06);
+}
+
+.qform-title {
+  margin: 0 0 18px;
+  font-size: 28px;
+  font-weight: 800;
+  color: #1a237e;
+}
+
+.qform-label {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a237e;
+}
+
+.qform-input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-top: 6px;
+  border: 1px solid #cfdcff;
+  border-radius: 8px;
+  outline: none;
+  font-size: 15px;
+  background: #fff;
+  color: #1a237e;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.qform-input:focus {
+  border-color: #6a7cff;
+  box-shadow: 0 0 0 3px rgba(106, 124, 255, 0.15);
+}
+
+.qform-error {
+  color: #c62d42;
+  background: #fdecee;
+  border: 1px solid #f5c2c7;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin: 10px 0 14px;
+  font-size: 15px;
+}
+
+.qform-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #1f6feb;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+
+.qform-btn:hover {
+  background: #1859bc;
+}
+
+.qform-ticket {
+  display: grid;
+  grid-template-columns: 1fr 160px;
+  gap: 18px;
+  border-top: 1px dashed #e3e4ea;
+  margin-top: 18px;
+  padding-top: 18px;
+  align-items: center;
+}
+
+.qform-link {
+  color: #1f6feb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.qform-link:hover {
+  text-decoration: underline;
+}

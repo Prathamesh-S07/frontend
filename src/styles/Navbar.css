@@ -1,0 +1,100 @@
+.nv {
+  height: 64px;
+  background: #0f172a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.nv-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nv-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.nv-brand {
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.nv-links {
+  display: flex;
+  gap: 8px;
+}
+
+.nv-link {
+  color: #cbd5e1;
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+.nv-link.active,
+.nv-link:hover {
+  background: #1e293b;
+  color: #fff;
+}
+
+.nv-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Group password actions visually */
+.nv-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.nv-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.15s;
+}
+
+.nv-btn:hover {
+  background: #1d4ed8;
+  text-decoration: none;
+}
+
+.nv-btn.outline {
+  background: transparent;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+}
+
+.nv-user {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin-right: 4px;
+}
+
+/* Icon style for password actions */
+.nv-btn .nv-icon {
+  font-size: 16px;
+  vertical-align: middle;
+  margin-right: 2px;
+}

@@ -1,0 +1,71 @@
+/* AddCounterForm modern card style */
+.acf {
+  margin-bottom: 18px;
+}
+
+.acf-row {
+  display: grid;
+  grid-template-columns: 220px 140px 110px;
+  gap: 12px;
+  background: #f4f7fd;
+  border-radius: 12px;
+  padding: 18px 18px 10px 18px;
+  box-shadow: 0 2px 8px rgba(28, 29, 33, 0.04);
+}
+
+@media (max-width: 680px) {
+  .acf-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.acf-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a237e;
+}
+
+.acf-input {
+  width: 100%;
+  max-width: 200px;
+  margin-top: 6px;
+  padding: 8px 10px;
+  border: 1px solid #cfdcff;
+  border-radius: 8px;
+  outline: none;
+  font-size: 15px;
+  background: #fff;
+  color: #1a237e;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+@media (max-width: 680px) {
+  .acf-row {
+    grid-template-columns: 1fr;
+  }
+  .acf-input {
+    max-width: 100%;
+  }
+}
+
+.acf-input:focus {
+  border-color: #6a7cff;
+  box-shadow: 0 0 0 3px rgba(106, 124, 255, 0.15);
+}
+
+.acf-btn {
+  align-self: end;
+  padding: 12px 24px;
+  border: none;
+  background: #1f6feb;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 28px;
+}
+
+.acf-btn:hover {
+  background: #1859bc;
+}
