@@ -68,7 +68,7 @@ const QueueForm = () => {
             </option>
             {counters.map((c) => (
               <option key={c.id} value={c.id}>
-                {c.name} {c.location ? `— ${c.location}` : ""}
+                {c.name}
               </option>
             ))}
           </select>
