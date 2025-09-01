@@ -142,6 +142,11 @@ export const assignStaffToCounter = async (counterId, staffId) => {
   return data;
 };
 
+// Get queues for staff from assigned counter
+export const fetchAssignedCounter = async () => {
+  const { data } = await api.get("/counters/assigned");
+  return data;
+};
 // ---- Reports (Admin) ----
 export const filterQueues = async ({ startDate, endDate }) => {
   const { data } = await api.get(`/admin/reports/filter`, {
