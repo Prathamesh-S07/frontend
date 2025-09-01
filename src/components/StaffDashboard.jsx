@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { fetchQueuesByCounter, markServed } from "../api";
+import React, { useEffect, useState } from "react";
+import { fetchQueuesByCounter, markServed, fetchAssignedCounter } from "../api";
 import "../styles/StaffDashboard.css";
 
 const StaffDashboard = () => {
@@ -7,8 +7,6 @@ const StaffDashboard = () => {
   const [counterId, setCounterId] = useState("");
   const [queues, setQueues] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // No need for selectedCounter, just use counter
 
   const load = async (cid = counterId) => {
     if (!cid) return;
@@ -24,23 +22,12 @@ const StaffDashboard = () => {
   };
 
   useEffect(() => {
-    // Fetch the assigned counter for this staff
+    // Use API helper for assigned counter
     (async () => {
       try {
-        const res = await fetch("/counters/assigned", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-          },
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setCounter(data);
-          setCounterId(data?.id ? String(data.id) : "");
-        } else {
-          setCounter(null);
-          setCounterId("");
-        }
+        const data = await fetchAssignedCounter();
+        setCounter(data);
+        setCounterId(data?.id ? String(data.id) : "");
       } catch {
         setCounter(null);
         setCounterId("");

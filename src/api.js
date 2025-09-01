@@ -94,7 +94,7 @@ export const joinQueue = async ({ name, counterId }) => {
 
 export const fetchQueuesByCounter = async (counterId) => {
   const { data } = await api.get(`/queue/${counterId}`);
-  return data;
+  return Array.isArray(data) ? data : [];
 };
 
 export const markServed = async (id) => {
