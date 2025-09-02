@@ -139,14 +139,14 @@ export const fetchAssignedCounter = async () => {
 };
 // ---- Reports (Admin) ----
 export const filterQueues = async ({ startDate, endDate }) => {
-  const { data } = await api.get(`/admin/reports/filter`, {
+  const { data } = await api.get(`/api/admin/reports/filter`, {
     params: { startDate, endDate },
   });
   return data;
 };
 
 export const downloadQueuesExcel = async ({ startDate, endDate }) => {
-  const response = await api.get(`/admin/reports/download`, {
+  const response = await api.get(`/api/admin/reports/download`, {
     params: { startDate, endDate },
     responseType: "blob",
   });
