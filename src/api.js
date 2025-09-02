@@ -13,7 +13,7 @@ const api = axios.create({
 
 // Attach JWT from localStorage to every request
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("jwt"); // match backend key
+  const token = localStorage.getItem("jwt");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -23,7 +23,7 @@ api.interceptors.request.use((config) => {
 // ---- Auth ----
 export const apiLogin = async (username, password) => {
   const { data } = await api.post("/api/auth/login", { username, password });
-  return data; // { token, role, username }
+  return data;
 };
 
 export const apiChangePassword = async (oldPassword, newPassword, role) => {
@@ -52,7 +52,8 @@ export const apiResetPassword = async (email, code, newPassword) => {
   return data;
 };
 
-// ADMIN-only endpoints (AdminDashboard)
+// ---- Counters ----
+// ADMIN endpoints
 export const fetchAdminCounters = async () => {
   const { data } = await api.get("/api/admin/counters");
   return data;
@@ -65,37 +66,51 @@ export const deleteAdminCounter = async (id) => {
   const { data } = await api.delete(`/api/admin/counters/${id}`);
   return data;
 };
-
-// General counters (for STAFF, CUSTOMER, QueueForm, StaffDashboard)
+// Assign staff to counter (admin only)
+export const assignStaffToCounter = async (counterId, staffId) => {
+  const { data } = await api.put(
+    `/api/admin/counters/${counterId}/assign-staff`,
+    null,
+    {
+      params: { staffId },
+    }
+  );
+  return data;
+};
+// STAFF endpoints
+export const fetchAssignedCounter = async () => {
+  const { data } = await api.get("/api/counters/assigned");
+  return data;
+};
+// Public GET for all counters
 export const fetchCounters = async () => {
-  const { data } = await api.get("/api/counters/all");
+  const { data } = await api.get("/counters/all");
   return data;
 };
 
 // ---- Queues ----
+// Public GET for all queues
+export const fetchAllQueues = async () => {
+  const { data } = await api.get("/queues/all");
+  return data;
+};
+// Public GET for queue by counter
+export const fetchQueuesByCounter = async (counterId) => {
+  const { data } = await api.get(`/queue/${counterId}`);
+  return Array.isArray(data) ? data : [];
+};
+// Public POST for joining queue
 export const joinQueue = async ({ name, counterId }) => {
-  // Backend expects /api/queue/join/{counterId} with POST
-  const { data } = await api.post(`/api/queue/join/${counterId}`, {
+  const { data } = await api.post(`/queue/join/${counterId}`, {
     userName: name,
     counterId,
   });
   return data;
 };
-
-export const fetchQueuesByCounter = async (counterId) => {
-  const { data } = await api.get(`/api/queue/${counterId}`);
-  return Array.isArray(data) ? data : [];
-};
-
-export const markServed = async (id) => {
-  // Backend expects PUT /api/queue/serve/{queueId}
-  const { data } = await api.put(`/api/queue/serve/${id}`);
-  return data;
-};
-
+// Public GET for queue entry by id
 export const fetchQueueById = async (id) => {
   try {
-    const { data } = await api.get(`/api/queue/entry/${id}`);
+    const { data } = await api.get(`/queue/entry/${id}`);
     return data;
   } catch (e) {
     if (e.response && e.response.status === 401) {
@@ -107,33 +122,16 @@ export const fetchQueueById = async (id) => {
     throw new Error("Unable to load ticket status.");
   }
 };
-
-export const fetchAllQueues = async () => {
-  const { data } = await api.get("/api/queues/all");
+// Mark served (admin/staff only)
+export const markServed = async (id) => {
+  const { data } = await api.put(`/api/queue/serve/${id}`);
   return data;
 };
 
-// Fetch all staff (for admin assignment)
+// ---- Staff ----
+// Fetch all staff (admin only)
 export const fetchAllStaff = async () => {
   const { data } = await api.get("/api/admin/staff");
-  return data;
-};
-
-// Assign staff to counter
-export const assignStaffToCounter = async (counterId, staffId) => {
-  const { data } = await api.put(
-    `/api/admin/counters/${counterId}/assign-staff`,
-    null,
-    {
-      params: { staffId },
-    }
-  );
-  return data;
-};
-
-// Get queues for staff from assigned counter
-export const fetchAssignedCounter = async () => {
-  const { data } = await api.get("/api/counters/assigned");
   return data;
 };
 
@@ -153,6 +151,7 @@ export const downloadQueuesExcel = async ({ startDate, endDate }) => {
   return response.data;
 };
 
+// ---- Users (Admin) ----
 export const fetchUsers = async () => {
   const response = await api.get("/api/admin/users");
   return response.data;
