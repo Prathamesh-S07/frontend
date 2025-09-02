@@ -29,7 +29,7 @@ export const apiChangePassword = async (oldPassword, newPassword, role) => {
   let url = "/api/auth/change-password";
   if (role === "ADMIN") url = "/api/auth/admin/change-password";
   else if (role === "STAFF") url = "/api/auth/staff/change-password";
-  else if (role === "CUSTOMER") url = "/api/auth/customer/change-password";
+  // No customer change-password endpoint
   const { data } = await api.post(url, {
     oldPassword,
     newPassword,
@@ -97,6 +97,7 @@ export const fetchQueuesByCounter = async (counterId) => {
   return Array.isArray(data) ? data : [];
 };
 
+// Public POST for joining queue (no JWT required)
 export const joinQueue = async ({ name, counterId }) => {
   const { data } = await api.post(`/api/queue/join/${counterId}`, {
     userName: name,
@@ -105,6 +106,7 @@ export const joinQueue = async ({ name, counterId }) => {
   return data;
 };
 
+// Public GET for queue entry by id (ticket status)
 export const fetchQueueById = async (id) => {
   const { data } = await api.get(`/api/queue/entry/${id}`);
   return data;
