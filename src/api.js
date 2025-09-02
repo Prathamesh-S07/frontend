@@ -88,18 +88,18 @@ export const fetchCounters = async () => {
 };
 
 export const fetchAllQueues = async () => {
-  const { data } = await api.get("/api/queues/all");
+  const { data } = await api.get("/queues/all");
   return data;
 };
 
 export const fetchQueuesByCounter = async (counterId) => {
-  const { data } = await api.get(`/api/queue/${counterId}`);
+  const { data } = await api.get(`/queue/${counterId}`);
   return Array.isArray(data) ? data : [];
 };
 
 // Public POST for joining queue (no JWT required)
 export const joinQueue = async ({ name, counterId }) => {
-  const { data } = await api.post(`/api/queue/join/${counterId}`, {
+  const { data } = await api.post(`/queue/join/${counterId}`, {
     userName: name,
     counterId,
   });
@@ -108,7 +108,7 @@ export const joinQueue = async ({ name, counterId }) => {
 
 // Public GET for queue entry by id (ticket status)
 export const fetchQueueById = async (id) => {
-  const { data } = await api.get(`/api/queue/entry/${id}`);
+  const { data } = await api.get(`/queue/entry/${id}`);
   return data;
 };
 
