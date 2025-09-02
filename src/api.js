@@ -78,12 +78,12 @@ export const assignStaffToCounter = async (counterId, staffId) => {
 };
 // STAFF endpoints
 export const fetchAssignedCounter = async () => {
-  const { data } = await api.get("/api/counters/assigned");
+  const { data } = await api.get("/counters/assigned");
   return data;
 };
 // Public GET for all counters
 export const fetchCounters = async () => {
-  const { data } = await api.get("/api/counters/all");
+  const { data } = await api.get("/counters/all");
   return data;
 };
 
