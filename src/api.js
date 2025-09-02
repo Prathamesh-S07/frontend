@@ -1,10 +1,11 @@
 import axios from "axios";
 import { getUserRole } from "./context/AuthContext";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL;
+const API_BASE_URL =
+  process.env.REACT_APP_API_URL || "https://backend-8bya.onrender.com";
 
 const api = axios.create({
-  baseURL: API_BASE_URL || "http://localhost:8080",
+  baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
