@@ -35,9 +35,36 @@
   padding: 8px 18px;
 }
 .admin-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 24px;
   background: #f6f7fb;
   min-height: calc(100vh - 64px);
+}
+
+.admin-top-grid {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.admin-left,
+.admin-right {
+  flex: 1 1 400px;
+  min-width: 320px;
+}
+
+.admin-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 32px;
+  margin-bottom: 0;
+}
+
+.admin-queues {
+  margin-top: 0;
 }
 
 .admin-grid {
@@ -144,4 +171,18 @@
   border-radius: 10px;
   font-size: 13px;
   box-shadow: 0 8px 24px rgba(28, 29, 33, 0.25);
+}
+
+.admin-dashboard-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.admin-dashboard-section {
+  margin-bottom: 32px;
+}
+
+.admin-queues {
+  margin-top: 0;
 }

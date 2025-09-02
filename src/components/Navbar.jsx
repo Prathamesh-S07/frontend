@@ -49,9 +49,6 @@ const Navbar = () => {
               <Link className="nv-btn" to="/login">
                 Login
               </Link>
-              <Link className="nv-btn" to="/signup">
-                Sign Up
-              </Link>
               <Link className="nv-btn" to="/forgot-password">
                 <LockIcon /> Forgot Password
               </Link>

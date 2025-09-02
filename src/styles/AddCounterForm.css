@@ -69,3 +69,50 @@
 .acf-btn:hover {
   background: #1859bc;
 }
+
+/* Add or update these styles for better button visibility on all screens */
+.admin-add-counter-form-wrap {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.add-counter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start; /* Ensures items start from left but wrap */
+}
+
+.add-counter-form input,
+.add-counter-form select {
+  flex: 1 1 180px;
+  min-width: 120px;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.add-counter-form button {
+  flex: 0 0 auto;
+  padding: 8px 18px;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  min-width: 100px;
+  align-self: stretch; /* Makes button same height as inputs */
+}
+
+@media (max-width: 600px) {
+  .add-counter-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .add-counter-form button {
+    width: 100%;
+    min-width: unset;
+    align-self: stretch;
+  }
+}

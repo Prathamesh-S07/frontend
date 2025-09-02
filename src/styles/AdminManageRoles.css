@@ -1,0 +1,117 @@
+/* AdminManageRoles modern card style, matching CounterList and AddCounterForm */
+.admin-roles-wrap {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #f4f7fd;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(28, 29, 33, 0.04);
+  padding: 32px;
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+.admin-roles-form {
+  display: grid;
+  grid-template-columns: 110px 170px 110px 140px;
+  gap: 18px; /* Increased gap for more space */
+  background: #f4f7fd;
+  border-radius: 12px;
+  padding: 8px 18px 8px 18px; /* Less vertical padding */
+  box-shadow: 0 2px 8px rgba(28, 29, 33, 0.04);
+  margin-bottom: 18px;
+}
+
+@media (max-width: 680px) {
+  .admin-roles-form {
+    grid-template-columns: 1fr;
+    padding: 8px 10px 8px 10px;
+  }
+}
+
+.admin-roles-form input,
+.admin-roles-form select {
+  width: 100%;
+  max-width: 100%;
+  height: 38px; /* Smaller height */
+  padding: 0 10px; /* Remove vertical padding */
+  border: 1px solid #cfdcff;
+  border-radius: 8px;
+  outline: none;
+  font-size: 15px;
+  background: #fff;
+  color: #1a237e;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.admin-roles-form input:focus,
+.admin-roles-form select:focus {
+  border-color: #6a7cff;
+  box-shadow: 0 0 0 3px rgba(106, 124, 255, 0.15);
+}
+
+.admin-roles-form button {
+  align-self: end;
+  padding: 8px 0;
+  width: 100%;
+  border: none;
+  background: #1f6feb;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 0;
+  height: 38px; /* Match input height */
+}
+
+.admin-roles-form button:hover {
+  background: #1859bc;
+}
+
+.admin-roles-message {
+  margin-bottom: 16px;
+  color: #1f6feb;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.admin-roles-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  background: #f7faff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(28, 29, 33, 0.04);
+}
+
+.admin-roles-table th,
+.admin-roles-table td {
+  border-bottom: 1px solid #e0e7ef;
+  padding: 12px 18px;
+  text-align: left;
+  font-size: 15px;
+}
+
+.admin-roles-table th {
+  background: #eaf0ff;
+  color: #1a237e;
+  font-weight: 600;
+}
+
+.admin-roles-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-roles-table tr:hover td {
+  background: #eef4ff;
+}
+
+.admin-roles-empty {
+  padding: 18px;
+  color: #6d7078;
+  font-size: 15px;
+  text-align: center;
+}

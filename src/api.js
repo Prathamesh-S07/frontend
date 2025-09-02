@@ -4,7 +4,7 @@ import { getUserRole } from "./context/AuthContext";
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: API_BASE_URL || "http://localhost:8080",
   headers: {
     "Content-Type": "application/json",
   },
@@ -47,17 +47,6 @@ export const apiResetPassword = async (email, code, newPassword) => {
     email,
     code,
     newPassword,
-  });
-  return data;
-};
-
-// ---- Signup ----
-export const apiSignup = async (username, email, password, role) => {
-  const { data } = await api.post("/api/auth/signup", {
-    username,
-    email,
-    password,
-    role,
   });
   return data;
 };
@@ -159,6 +148,20 @@ export const downloadQueuesExcel = async ({ startDate, endDate }) => {
   const response = await api.get(`/admin/reports/download`, {
     params: { startDate, endDate },
     responseType: "blob",
+  });
+  return response.data;
+};
+
+export const fetchUsers = async () => {
+  const response = await api.get("/api/admin/users");
+  return response.data;
+};
+
+export const createUser = async (username, email, role) => {
+  const response = await api.post("/api/admin/create-user", {
+    username,
+    email,
+    role,
   });
   return response.data;
 };

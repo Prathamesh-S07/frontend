@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import LoginPage from "./components/LoginPage";
-import SignupPage from "./components/SignupPage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import ChangePasswordPage from "./components/ChangePasswordPage";
 import QueueForm from "./components/QueueForm";
@@ -22,7 +21,6 @@ function App() {
           <Route path="/" element={<QueueForm />} />
           <Route path="/queue-status/:id" element={<QueueStatusPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
 
