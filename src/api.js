@@ -83,7 +83,7 @@ export const fetchAssignedCounter = async () => {
 };
 // Public GET for all counters
 export const fetchCounters = async () => {
-  const { data } = await api.get("/counters/all");
+  const { data } = await axios.get(`${API_BASE_URL}/counters/all`);
   return data;
 };
 
