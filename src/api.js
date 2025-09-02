@@ -68,14 +68,14 @@ export const deleteAdminCounter = async (id) => {
 
 // General counters (for STAFF, CUSTOMER, QueueForm, StaffDashboard)
 export const fetchCounters = async () => {
-  const { data } = await api.get("/counters/all");
+  const { data } = await api.get("/api/counters/all");
   return data;
 };
 
 // ---- Queues ----
 export const joinQueue = async ({ name, counterId }) => {
-  // Backend expects /queue/join/{counterId} with POST
-  const { data } = await api.post(`/queue/join/${counterId}`, {
+  // Backend expects /api/queue/join/{counterId} with POST
+  const { data } = await api.post(`/api/queue/join/${counterId}`, {
     userName: name,
     counterId,
   });
@@ -83,20 +83,19 @@ export const joinQueue = async ({ name, counterId }) => {
 };
 
 export const fetchQueuesByCounter = async (counterId) => {
-  const { data } = await api.get(`/queue/${counterId}`);
+  const { data } = await api.get(`/api/queue/${counterId}`);
   return Array.isArray(data) ? data : [];
 };
 
 export const markServed = async (id) => {
-  // Backend expects PUT /queue/serve/{queueId}
-  const { data } = await api.put(`/queue/serve/${id}`);
+  // Backend expects PUT /api/queue/serve/{queueId}
+  const { data } = await api.put(`/api/queue/serve/${id}`);
   return data;
 };
 
-// The following endpoints are not present in backend, so return empty or placeholder
 export const fetchQueueById = async (id) => {
   try {
-    const { data } = await api.get(`/queue/entry/${id}`);
+    const { data } = await api.get(`/api/queue/entry/${id}`);
     return data;
   } catch (e) {
     if (e.response && e.response.status === 401) {
@@ -110,7 +109,7 @@ export const fetchQueueById = async (id) => {
 };
 
 export const fetchAllQueues = async () => {
-  const { data } = await api.get("/queues/all");
+  const { data } = await api.get("/api/queues/all");
   return data;
 };
 
@@ -134,9 +133,10 @@ export const assignStaffToCounter = async (counterId, staffId) => {
 
 // Get queues for staff from assigned counter
 export const fetchAssignedCounter = async () => {
-  const { data } = await api.get("/counters/assigned");
+  const { data } = await api.get("/api/counters/assigned");
   return data;
 };
+
 // ---- Reports (Admin) ----
 export const filterQueues = async ({ startDate, endDate }) => {
   const { data } = await api.get(`/api/admin/reports/filter`, {
