@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getUserRole } from "./context/AuthContext";
 
 const API_BASE_URL =
   process.env.REACT_APP_API_URL || "https://backend-8bya.onrender.com";
@@ -84,44 +83,33 @@ export const fetchAssignedCounter = async () => {
 };
 // Public GET for all counters
 export const fetchCounters = async () => {
-  const { data } = await api.get("/counters/all");
+  const { data } = await api.get("/api/counters/all");
   return data;
 };
 
-// ---- Queues ----
-// Public GET for all queues
 export const fetchAllQueues = async () => {
-  const { data } = await api.get("/queues/all");
+  const { data } = await api.get("/api/queues/all");
   return data;
 };
-// Public GET for queue by counter
+
 export const fetchQueuesByCounter = async (counterId) => {
-  const { data } = await api.get(`/queue/${counterId}`);
+  const { data } = await api.get(`/api/queue/${counterId}`);
   return Array.isArray(data) ? data : [];
 };
-// Public POST for joining queue
+
 export const joinQueue = async ({ name, counterId }) => {
-  const { data } = await api.post(`/queue/join/${counterId}`, {
+  const { data } = await api.post(`/api/queue/join/${counterId}`, {
     userName: name,
     counterId,
   });
   return data;
 };
-// Public GET for queue entry by id
+
 export const fetchQueueById = async (id) => {
-  try {
-    const { data } = await api.get(`/queue/entry/${id}`);
-    return data;
-  } catch (e) {
-    if (e.response && e.response.status === 401) {
-      throw new Error("Unauthorized. Please log in again.");
-    }
-    if (e.response && e.response.status === 404) {
-      throw new Error("Ticket not found.");
-    }
-    throw new Error("Unable to load ticket status.");
-  }
+  const { data } = await api.get(`/api/queue/entry/${id}`);
+  return data;
 };
+
 // Mark served (admin/staff only)
 export const markServed = async (id) => {
   const { data } = await api.put(`/api/queue/serve/${id}`);
