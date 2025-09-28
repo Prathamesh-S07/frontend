@@ -6,7 +6,7 @@ import "../styles/QueueForm.css";
 const QueueForm = () => {
   const [counters, setCounters] = useState([]);
   const [name, setName] = useState("");
-  const [counterId, setCounterId] = useState("");
+  const [counterId, setCounterId] = useState(""); // use this consistently
   const [ticket, setTicket] = useState(null); // { id, qrData }
   const [error, setError] = useState("");
   const isMounted = useRef(true);
@@ -67,9 +67,10 @@ const QueueForm = () => {
         <label className="qform-label">
           Select Counter
           <select
-            value={selectedCounter}
-            onChange={(e) => setSelectedCounter(e.target.value)}
+            value={counterId} // <-- use counterId here
+            onChange={(e) => setCounterId(e.target.value)} // <-- use setCounterId here
             required
+            className="qform-select"
           >
             <option value="">Select Counter</option>
             {Array.isArray(counters) && counters.length > 0 ? (
