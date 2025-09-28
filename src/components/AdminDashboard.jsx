@@ -25,13 +25,13 @@ const AdminDashboard = () => {
   const [filterCounter, setFilterCounter] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
 
-  const isMounted = useRef(true); // for safe state updates
+  const isMounted = useRef(true);
 
   // Load counters + today's queues
   const load = async () => {
     setLoading(true);
     try {
-      const today = new Date().toISOString().split("T")[0]; // yyyy-mm-dd
+      const today = new Date().toISOString().split("T")[0];
       const [cList, qList] = await Promise.all([
         fetchAdminCounters(),
         filterQueues({ startDate: today, endDate: today }), // only today's queues
