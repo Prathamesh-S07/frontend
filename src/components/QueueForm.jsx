@@ -6,7 +6,7 @@ import "../styles/QueueForm.css";
 const QueueForm = () => {
   const [counters, setCounters] = useState([]);
   const [name, setName] = useState("");
-  const [counterId, setCounterId] = useState(""); // use this consistently
+  const [counterId, setCounterId] = useState("");
   const [ticket, setTicket] = useState(null); // { id, qrData }
   const [error, setError] = useState("");
   const isMounted = useRef(true);
@@ -67,21 +67,20 @@ const QueueForm = () => {
         <label className="qform-label">
           Select Counter
           <select
-            value={counterId} // <-- use counterId here
-            onChange={(e) => setCounterId(e.target.value)} // <-- use setCounterId here
+            className="qform-input improved-input"
+            value={counterId}
+            onChange={(e) => setCounterId(e.target.value)}
             required
-            className="qform-select"
           >
-            <option value="">Select Counter</option>
-            {Array.isArray(counters) && counters.length > 0 ? (
-              counters.map((counter) => (
-                <option key={counter.id} value={counter.id}>
-                  {counter.name} (Remaining: {counter.remaining})
+            <option value="" disabled>
+              -- Choose a counter --
+            </option>
+            {Array.isArray(counters) &&
+              counters.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
                 </option>
-              ))
-            ) : (
-              <option disabled>No counters available</option>
-            )}
+              ))}
           </select>
         </label>
 
