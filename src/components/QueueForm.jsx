@@ -67,19 +67,20 @@ const QueueForm = () => {
         <label className="qform-label">
           Select Counter
           <select
-            className="qform-input improved-input"
-            value={counterId}
-            onChange={(e) => setCounterId(e.target.value)}
+            value={selectedCounter}
+            onChange={(e) => setSelectedCounter(e.target.value)}
             required
           >
-            <option value="" disabled>
-              -- Choose a counter --
-            </option>
-            {counters.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
+            <option value="">Select Counter</option>
+            {Array.isArray(counters) && counters.length > 0 ? (
+              counters.map((counter) => (
+                <option key={counter.id} value={counter.id}>
+                  {counter.name} (Remaining: {counter.remaining})
+                </option>
+              ))
+            ) : (
+              <option disabled>No counters available</option>
+            )}
           </select>
         </label>
 
