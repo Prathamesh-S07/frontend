@@ -17,7 +17,8 @@ const QueueForm = () => {
     (async () => {
       try {
         const list = await fetchCounters();
-        if (isMounted.current) setCounters(list || []);
+        // Wrap single object into array if needed
+        setCounters(Array.isArray(list) ? list : list ? [list] : []);
       } catch (e) {
         if (isMounted.current) setCounters([]);
       }
@@ -67,20 +68,21 @@ const QueueForm = () => {
         <label className="qform-label">
           Select Counter
           <select
-            className="qform-input improved-input"
             value={counterId}
             onChange={(e) => setCounterId(e.target.value)}
             required
+            className="qform-select"
           >
-            <option value="" disabled>
-              -- Choose a counter --
-            </option>
-            {Array.isArray(counters) &&
-              counters.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
+            <option value="">Select Counter</option>
+            {counters.length > 0 ? (
+              counters.map((counter) => (
+                <option key={counter.id} value={counter.id}>
+                  {counter.name} (Remaining: {counter.remaining})
                 </option>
-              ))}
+              ))
+            ) : (
+              <option disabled>No counters available</option>
+            )}
           </select>
         </label>
 
