@@ -148,14 +148,11 @@ export const downloadQueuesExcel = async ({ startDate, endDate }) => {
 
 // ---- Public GET for counters ----
 export const fetchCounters = async () => {
-  const { data } = await axios.get(${BASE_URL}/counters/all);
-
-  // Normalize so we always return an array
-  if (Array.isArray(data)) {
-    return data;
-  } else if (data && Array.isArray(data.data)) {
-    return data.data;
-  } else {
+  try {
+    const { data } = await axios.get(`${BASE_URL}/counters/all`);
+    return Array.isArray(data) ? data : [];
+  } catch (err) {
+    console.error("Failed to fetch counters:", err);
     return [];
   }
 };
