@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { fetchQueuesByCounter, markServed, fetchAssignedCounter } from "../api";
 import "../styles/StaffDashboard.css";
+
+const POLL_MS = 4000;
 
 const StaffDashboard = () => {
   const [counter, setCounter] = useState(null);
@@ -8,44 +10,61 @@ const StaffDashboard = () => {
   const [queues, setQueues] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const load = async (cid = counterId) => {
-    if (!cid) return;
-    setLoading(true);
-    try {
-      const list = await fetchQueuesByCounter(cid);
-      setQueues(list || []);
-    } catch (e) {
-      setQueues([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const load = useCallback(
+    async (cid) => {
+      if (!cid) return;
+      setLoading(true);
+      try {
+        const list = await fetchQueuesByCounter(cid);
+        setQueues(list || []);
+      } catch (e) {
+        console.error(e);
+        setQueues([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [] // stable function
+  );
 
+  // Fetch assigned counter
   useEffect(() => {
-    // Use API helper for assigned counter
+    let mounted = true;
     (async () => {
       try {
         const data = await fetchAssignedCounter();
-        setCounter(data);
-        setCounterId(data?.id ? String(data.id) : "");
+        if (mounted) {
+          setCounter(data);
+          setCounterId(data?.id ? String(data.id) : "");
+        }
       } catch {
-        setCounter(null);
-        setCounterId("");
+        if (mounted) {
+          setCounter(null);
+          setCounterId("");
+        }
       }
     })();
+    return () => {
+      mounted = false;
+    };
   }, []);
 
+  // Poll queues
   useEffect(() => {
     if (!counterId) return;
-    load(counterId);
-    const t = setInterval(() => load(counterId), 4000);
-    return () => clearInterval(t);
-    // eslint-disable-next-line
-  }, [counterId]);
+    const interval = setInterval(() => load(counterId), POLL_MS);
+    load(counterId); // initial load
+    return () => clearInterval(interval);
+  }, [counterId, load]);
 
   const onServe = async (id) => {
-    await markServed(id);
-    load(counterId);
+    try {
+      await markServed(id);
+      load(counterId);
+    } catch (err) {
+      console.error("Failed to mark served", err);
+      alert("Failed to serve. Check your login or permissions.");
+    }
   };
 
   return (
@@ -71,7 +90,7 @@ const StaffDashboard = () => {
               {queues.map((q) => (
                 <div className="staff-row" key={q.id}>
                   <div>{q.id}</div>
-                  <div>{q.userName || q.name || "-"}</div>
+                  <div>{q.userName || "-"}</div>
                   <div>
                     {q.joinedAt ? new Date(q.joinedAt).toLocaleString() : "-"}
                   </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { joinQueue, fetchCounters } from "../api";
 import { QRCodeSVG } from "qrcode.react";
 import "../styles/QueueForm.css";
@@ -9,16 +9,23 @@ const QueueForm = () => {
   const [counterId, setCounterId] = useState("");
   const [ticket, setTicket] = useState(null); // { id, qrData }
   const [error, setError] = useState("");
+  const isMounted = useRef(true);
 
   useEffect(() => {
+    isMounted.current = true;
+
     (async () => {
       try {
         const list = await fetchCounters();
-        setCounters(list || []);
+        if (isMounted.current) setCounters(list || []);
       } catch (e) {
-        setCounters([]);
+        if (isMounted.current) setCounters([]);
       }
     })();
+
+    return () => {
+      isMounted.current = false; // cleanup
+    };
   }, []);
 
   const submit = async (e) => {
@@ -27,6 +34,7 @@ const QueueForm = () => {
     setTicket(null);
     try {
       const res = await joinQueue({ name, counterId: Number(counterId) });
+      if (!isMounted.current) return;
       setTicket({
         id: res.id,
         qrData: `${window.location.origin}/queue-status/${res.id}`,
@@ -34,6 +42,7 @@ const QueueForm = () => {
       setName("");
       setCounterId("");
     } catch (err) {
+      if (!isMounted.current) return;
       setError(err?.response?.data?.message || "Unable to join queue.");
     }
   };

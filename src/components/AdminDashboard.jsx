@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
-  fetchAllQueues,
   fetchAdminCounters,
   createAdminCounter,
   deleteAdminCounter,
@@ -20,45 +19,54 @@ const AdminDashboard = () => {
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
   const [rolesLoading, setRolesLoading] = useState(false);
-  // Filter state
+
   const [filterStart, setFilterStart] = useState("");
   const [filterEnd, setFilterEnd] = useState("");
   const [filterCounter, setFilterCounter] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
 
+  const isMounted = useRef(true); // for safe state updates
+
+  // Load counters + today's queues
   const load = async () => {
     setLoading(true);
     try {
+      const today = new Date().toISOString().split("T")[0]; // yyyy-mm-dd
       const [cList, qList] = await Promise.all([
         fetchAdminCounters(),
-        fetchAllQueues(),
+        filterQueues({ startDate: today, endDate: today }), // only today's queues
       ]);
-      setCounters(cList || []);
-      setQueues(qList || []);
-      setError("");
+      if (isMounted.current) {
+        setCounters(cList || []);
+        setQueues(qList || []);
+        setError("");
+        // also set filterStart/End to today so date pickers show it
+        setFilterStart(today);
+        setFilterEnd(today);
+      }
     } catch (e) {
-      if (e.response?.status === 401) {
-        setError("Unauthorized — please log in again.");
-      } else {
-        setError("Error loading data.");
+      if (isMounted.current) {
+        if (e.response?.status === 401) {
+          setError("Unauthorized — please log in again.");
+        } else {
+          setError("Error loading data.");
+        }
       }
     } finally {
-      setLoading(false);
+      if (isMounted.current) setLoading(false);
     }
   };
 
-  // Filtered load
+  // Apply filter manually
   const applyFilter = async () => {
     setLoading(true);
     try {
-      // Only send startDate/endDate if selected
       const filterParams = {};
       if (filterStart) filterParams.startDate = filterStart;
       if (filterEnd) filterParams.endDate = filterEnd;
 
       let filtered = await filterQueues(filterParams);
 
-      // Filter by counter and status client-side if selected
       if (filterCounter) {
         filtered = filtered.filter(
           (q) => q.counter && q.counter.id === Number(filterCounter)
@@ -69,20 +77,28 @@ const AdminDashboard = () => {
           filterStatus === "waiting" ? !q.served : q.served
         );
       }
-      setQueues(filtered);
-      setError("");
+      if (isMounted.current) {
+        setQueues(filtered);
+        setError("");
+      }
     } catch (e) {
-      setError("Error applying filter.");
+      if (isMounted.current) setError("Error applying filter.");
     } finally {
-      setLoading(false);
+      if (isMounted.current) setLoading(false);
     }
   };
 
+  // Ask for start & end at download time
   const onDownloadExcel = async () => {
+    const startDate =
+      prompt("Enter start date (yyyy-mm-dd):", filterStart) || "";
+    const endDate = prompt("Enter end date (yyyy-mm-dd):", filterEnd) || "";
+    if (!startDate || !endDate) return;
+
     try {
       const blob = await downloadQueuesExcel({
-        startDate: filterStart,
-        endDate: filterEnd,
+        startDate,
+        endDate,
       });
       const url = window.URL.createObjectURL(new Blob([blob]));
       const link = document.createElement("a");
@@ -92,49 +108,60 @@ const AdminDashboard = () => {
       link.click();
       link.parentNode.removeChild(link);
     } catch (e) {
-      setError("Failed to download Excel file.");
+      if (isMounted.current) setError("Failed to download Excel file.");
     }
   };
 
   useEffect(() => {
+    isMounted.current = true;
     load();
-    // Removed auto-refresh interval for optimization
+    return () => {
+      isMounted.current = false; // cleanup
+    };
   }, []);
 
   const onAddCounter = async (payload) => {
     try {
       await createAdminCounter(payload);
-      setMsg("Counter created");
-      load();
+      if (isMounted.current) {
+        setMsg("Counter created");
+        load();
+      }
     } catch (e) {
-      setError("Failed to create counter.");
+      if (isMounted.current) setError("Failed to create counter.");
     }
   };
 
   const onDeleteCounter = async (id) => {
     try {
       await deleteAdminCounter(id);
-      setMsg("Counter deleted");
-      load();
+      if (isMounted.current) {
+        setMsg("Counter deleted");
+        load();
+      }
     } catch (e) {
-      setError("Failed to delete counter.");
+      alert(e.message);
     }
   };
 
   const onServe = async (id) => {
     try {
       await markServed(id);
-      setMsg(`Ticket ${id} marked as served`);
-      load();
+      if (isMounted.current) {
+        setMsg(`Ticket ${id} marked as served`);
+        load();
+      }
     } catch (e) {
-      setError("Failed to update ticket status.");
+      if (isMounted.current) setError("Failed to update ticket status.");
     }
   };
 
   const refreshRoles = async () => {
+    if (!isMounted.current) return;
     setRolesLoading(true);
-    // You may want to trigger a reload in AdminManageRoles, e.g. via a ref or callback
-    setTimeout(() => setRolesLoading(false), 1000); // Simulate loading
+    setTimeout(() => {
+      if (isMounted.current) setRolesLoading(false);
+    }, 1000);
   };
 
   return (

@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { fetchQueueById } from "../api";
 import { connectToTopic, disconnect } from "../services/socket";
 import "../styles/QueueStatusPage.css";
 
-const POLL_MS = 4000; // simple polling
+const POLL_MS = 4000;
 
 const QueueStatusPage = () => {
   const { id } = useParams();
@@ -13,25 +13,27 @@ const QueueStatusPage = () => {
   const [notify, setNotify] = useState(false);
   const timerRef = useRef(null);
   const wsRef = useRef(null);
+  const isMounted = useRef(true);
 
-  const load = async () => {
-    setError("");
+  const load = useCallback(async () => {
     try {
       const data = await fetchQueueById(id);
-      setTicket(data);
+      if (isMounted.current) setTicket(data);
     } catch (e) {
-      setError(e.message || "Unable to load ticket status.");
+      if (isMounted.current)
+        setError(e.message || "Unable to load ticket status.");
     }
-  };
+  }, [id]);
 
   useEffect(() => {
+    isMounted.current = true;
     load();
     timerRef.current = setInterval(load, POLL_MS);
 
-    // Subscribe to user-specific topic for turn notification
-    wsRef.current = connectToTopic(`/topic/user/${id}`, (msg) => {
+    wsRef.current = connectToTopic(`/topic/user/${id}`, () => {
+      if (!isMounted.current) return;
       setNotify(true);
-      // Show browser notification if supported and permission granted
+
       if (window.Notification && Notification.permission === "granted") {
         new Notification("Queue Update", {
           body: "It's almost your turn! Please be ready.",
@@ -48,10 +50,11 @@ const QueueStatusPage = () => {
     });
 
     return () => {
+      isMounted.current = false;
       clearInterval(timerRef.current);
       disconnect();
     };
-  }, [id]);
+  }, [id, load]);
 
   return (
     <div className="qs-wrap">
