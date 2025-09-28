@@ -13,7 +13,7 @@ export function connectToTopic(topic, onMessage) {
     process.env.REACT_APP_API_URL ||
     (window.location.hostname === "localhost"
       ? "http://localhost:8080"
-      : "https://backend-8bya.onrender.com");
+      : "https://backend-hhni.onrender.com");
 
   const socket = new SockJS(`${BACKEND_URL}/ws-queue`);
 

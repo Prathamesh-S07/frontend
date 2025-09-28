@@ -4,7 +4,7 @@ const BASE_URL =
   process.env.REACT_APP_API_URL ||
   (window.location.hostname === "localhost"
     ? "http://localhost:8080"
-    : "https://backend-8bya.onrender.com");
+    : "https://backend-hhni.onrender.com");
 
 // Axios instance for protected endpoints
 const api = axios.create({
