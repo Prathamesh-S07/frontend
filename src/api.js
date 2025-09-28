@@ -150,14 +150,14 @@ export const downloadQueuesExcel = async ({ startDate, endDate }) => {
 export const fetchCounters = async () => {
   const { data } = await axios.get(${BASE_URL}/counters/all);
 
-  // Normalize to always return an array
+  // Normalize so we always return an array
   if (Array.isArray(data)) {
     return data;
-  }
-  if (Array.isArray(data?.data)) {
+  } else if (data && Array.isArray(data.data)) {
     return data.data;
+  } else {
+    return [];
   }
-  return [];
 };
 
 export default api;
