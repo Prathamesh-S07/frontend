@@ -75,11 +75,12 @@ const QueueForm = () => {
             <option value="" disabled>
               -- Choose a counter --
             </option>
-            {counters.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
+            {Array.isArray(counters) &&
+              counters.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
           </select>
         </label>
 
