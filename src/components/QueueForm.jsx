@@ -7,7 +7,7 @@ const QueueForm = () => {
   const [counters, setCounters] = useState([]);
   const [name, setName] = useState("");
   const [counterId, setCounterId] = useState("");
-  const [ticket, setTicket] = useState(null); // { id, qrData }
+  const [ticket, setTicket] = useState(null);
   const [error, setError] = useState("");
   const isMounted = useRef(true);
 
@@ -17,15 +17,14 @@ const QueueForm = () => {
     (async () => {
       try {
         const list = await fetchCounters();
-        // Wrap single object into array if needed
-        setCounters(Array.isArray(list) ? list : list ? [list] : []);
+        if (isMounted.current) setCounters(list || []);
       } catch (e) {
         if (isMounted.current) setCounters([]);
       }
     })();
 
     return () => {
-      isMounted.current = false; // cleanup
+      isMounted.current = false;
     };
   }, []);
 
@@ -68,21 +67,19 @@ const QueueForm = () => {
         <label className="qform-label">
           Select Counter
           <select
+            className="qform-input improved-input"
             value={counterId}
             onChange={(e) => setCounterId(e.target.value)}
             required
-            className="qform-select"
           >
-            <option value="">Select Counter</option>
-            {counters.length > 0 ? (
-              counters.map((counter) => (
-                <option key={counter.id} value={counter.id}>
-                  {counter.name} (Remaining: {counter.remaining})
-                </option>
-              ))
-            ) : (
-              <option disabled>No counters available</option>
-            )}
+            <option value="" disabled>
+              -- Choose a counter --
+            </option>
+            {counters.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
           </select>
         </label>
 

@@ -14,6 +14,11 @@ const api = axios.create({
   },
 });
 
+const publicApi = axios.create({
+  baseURL: BASE_URL,
+  headers: { "Content-Type": "application/json" },
+});
+
 // Attach JWT from localStorage to all requests
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("jwt");
@@ -39,12 +44,12 @@ export const apiChangePassword = async (oldPassword, newPassword, role) => {
 };
 
 export const apiForgotPassword = async (email) => {
-  const { data } = await api.post("/api/auth/forgot-password", { email });
+  const { data } = await publicApi.post("/forgot-password", { email });
   return data;
 };
 
 export const apiResetPassword = async (email, code, newPassword) => {
-  const { data } = await api.post("/api/auth/reset-password", {
+  const { data } = await publicApi.post("/reset-password", {
     email,
     code,
     newPassword,
@@ -148,13 +153,8 @@ export const downloadQueuesExcel = async ({ startDate, endDate }) => {
 
 // ---- Public GET for counters ----
 export const fetchCounters = async () => {
-  try {
-    const { data } = await axios.get(`${BASE_URL}/counters/all`);
-    return Array.isArray(data) ? data : [];
-  } catch (err) {
-    console.error("Failed to fetch counters:", err);
-    return [];
-  }
+  const { data } = await axios.get(`${BASE_URL}/counters/all`);
+  return data;
 };
 
 export default api;
