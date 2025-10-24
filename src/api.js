@@ -4,7 +4,7 @@ const BASE_URL =
   process.env.REACT_APP_API_URL ||
   (window.location.hostname === "localhost"
     ? "http://localhost:8080"
-    : "https://frontend-two-kohl-87.vercel.app");
+    : "https://backend-hhni.onrender.com");
 
 // Axios instance for protected endpoints
 const api = axios.create({
@@ -44,12 +44,12 @@ export const apiChangePassword = async (oldPassword, newPassword, role) => {
 };
 
 export const apiForgotPassword = async (email) => {
-  const { data } = await publicApi.post("/forgot-password", { email });
+  const { data } = await publicApi.post("/api/auth/forgot-password", { email });
   return data;
 };
 
 export const apiResetPassword = async (email, code, newPassword) => {
-  const { data } = await publicApi.post("/reset-password", {
+  const { data } = await publicApi.post("/api/auth/reset-password", {
     email,
     code,
     newPassword,

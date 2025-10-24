@@ -122,6 +122,7 @@ const AdminManageRoles = ({ loading: parentLoading = false, onRefresh }) => {
             <tr>
               <th>Username</th>
               <th>Email</th>
+              <th>Password</th>
               <th>Role</th>
             </tr>
           </thead>
@@ -131,6 +132,7 @@ const AdminManageRoles = ({ loading: parentLoading = false, onRefresh }) => {
                 <tr key={u.id || u.email}>
                   <td>{u.username}</td>
                   <td>{u.email}</td>
+                  <td>{u.password || "N/A"}</td>
                   <td>{u.role}</td>
                 </tr>
               ))
