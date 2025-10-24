@@ -1,10 +1,6 @@
 import axios from "axios";
 
-const BASE_URL =
-  process.env.REACT_APP_API_URL ||
-  (window.location.hostname === "localhost"
-    ? "http://localhost:8080"
-    : "frontend-two-kohl-87.vercel.app");
+const BASE_URL = "https://backend-hhni.onrender.com";
 
 // Axios instance for protected endpoints
 const api = axios.create({
